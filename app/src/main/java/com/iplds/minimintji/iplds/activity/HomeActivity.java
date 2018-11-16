@@ -123,7 +123,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
     private void getUserInfo(String userToken) {
         Call<User> call = HttpManager.getInstance()
-                .getService()
+                .getServiceParka()
                 .getUserInfo(userToken);
         call.enqueue(new Callback<User>() {
             @Override

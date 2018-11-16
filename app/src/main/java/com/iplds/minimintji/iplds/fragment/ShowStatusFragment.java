@@ -68,7 +68,7 @@ public class ShowStatusFragment extends Fragment {
 
     private void LoadAvailableParking() {
         Call<AvailableParkingCollection> call = HttpManager.getInstance()
-                .getService()
+                .getServiceParka()
                 .getAvailableParking();
 
         call.enqueue(new Callback<AvailableParkingCollection>() {

@@ -168,7 +168,7 @@ public class RegisterActivity extends AppCompatActivity {
         }
 
         Call<User> call = HttpManager.getInstance()
-                .getService()
+                .getServiceParka()
                 .register(etInputName.getEditText().getText().toString(),
                         etInputSurname.getEditText().getText().toString(),
                         etInputTelNumber.getEditText().getText().toString(),

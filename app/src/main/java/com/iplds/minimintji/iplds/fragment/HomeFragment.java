@@ -89,7 +89,7 @@ public class HomeFragment extends Fragment {
 //      Hide progressbar and layoutCurrentMessage
         progressBar.setVisibility(View.GONE);
         layoutCurrentMessage.setVisibility(View.GONE);
-        initFcmToken();
+//        initFcmToken();
 
         sessionManager = new SessionManager(getContext());
         userToken = sessionManager.getToken();
@@ -115,7 +115,7 @@ public class HomeFragment extends Fragment {
                 long millis = System.currentTimeMillis()/1000L;
 
                 Call<CarPositionCollection> call = HttpManager.getInstance()
-                        .getService()
+                        .getServiceParka()
                         .sendXYPosition(userToken,
                                 5.8,
                                 11,
@@ -168,29 +168,29 @@ public class HomeFragment extends Fragment {
 
 
     }
-    private void initFcmToken() {
-        FirebaseInstanceId.getInstance().getInstanceId()
-                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
-                        if (!task.isSuccessful()) {
-                            Log.w("TAG", "getInstanceId failed", task.getException());
-                            Toast.makeText(getContext(), "getInstanceId failed: " + task.getException(), Toast.LENGTH_LONG).show();
-                            return;
-                        }
-
-                        //Get new instance ID token
-                        fcmToken = task.getResult().getToken();
-                        Toast.makeText(getContext(), "getInstanceId Token: " + fcmToken, Toast.LENGTH_LONG).show();
-                        Log.d("TAG-------------", "token: " + fcmToken);
-
-                    }
-                });
-    }
+//    private void initFcmToken() {
+//        FirebaseInstanceId.getInstance().getInstanceId()
+//                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
+//                        if (!task.isSuccessful()) {
+//                            Log.w("TAG", "getInstanceId failed", task.getException());
+//                            Toast.makeText(getContext(), "getInstanceId failed: " + task.getException(), Toast.LENGTH_LONG).show();
+//                            return;
+//                        }
+//
+//                        //Get new instance ID token
+//                        fcmToken = task.getResult().getToken();
+//                        Toast.makeText(getContext(), "getInstanceId Token: " + fcmToken, Toast.LENGTH_LONG).show();
+//                        Log.d("TAG-------------", "token: " + fcmToken);
+//
+//                    }
+//                });
+//    }
 
     private void getUserInfo(String userToken) {
         Call<User> call = HttpManager.getInstance()
-                .getService()
+                .getServiceParka()
                 .getUserInfo(userToken);
         call.enqueue(new Callback<User>() {
             @Override

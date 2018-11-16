@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.iplds.minimintji.iplds.activity.RealSituationActivity">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:weightSum="3">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="3">
+
+            <com.estimote.indoorsdk_module.view.IndoorLocationView
+                android:id="@+id/indoor_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/background_green" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center|center_vertical|bottom"
+            android:orientation="vertical">
+
+            <com.estimote.indoorapp.view.AccelerometerDataViewGroup
+                android:id="@+id/accelerometerDataViewGroup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"></com.estimote.indoorapp.view.AccelerometerDataViewGroup>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+
+                <TextView
+                    android:id="@+id/tvBeacon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:text="Beacon:"
+                    android:textSize="15sp" />
+                <TextView
+                    android:id="@+id/tvX_position"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:text="x=0.0000"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/tvY_position"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:text="/y=0.0000"
+                    android:textSize="15sp" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <com.estimote.indoorapp.view.ChangeGmsStatusViewGroup
+                    android:id="@+id/changeGmsStatusViewGroup"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                </com.estimote.indoorapp.view.ChangeGmsStatusViewGroup>
+
+                <Button
+                    android:id="@+id/btnSendData"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="yes already parked" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

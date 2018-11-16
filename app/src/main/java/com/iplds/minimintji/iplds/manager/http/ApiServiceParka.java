@@ -14,7 +14,7 @@ import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 
-public interface ApiService {
+public interface ApiServiceParka {
     @FormUrlEncoded
     @POST("users/login/")
     Call<Token> login(@Field("username") String username,
@@ -35,15 +35,6 @@ public interface ApiService {
     @DELETE("users/logout/{token}/")
     Call<User> logout(@Path("token") String token);
 
-    @FormUrlEncoded
-    @POST("users/car/{token}/")
-    Call<CarPositionCollection> sendXYPosition(@Path("token") String token,
-                                               @Field("x") double x_position,
-                                               @Field("y") double y_position,
-                                               @Field("floor_id") int floorId,
-                                               @Field("fcm_token") String fcmToken,
-                                               @Field("timestamp_stop_engine") long time);
-
     @GET("users/showparkingposition/")
     Call<AvailableParkingCollection> getAvailableParking();
 
@@ -52,6 +43,16 @@ public interface ApiService {
 
     @GET("users/checkstatuscurrent/{token}/")
     Call<CarPositionHistoryCollection> getCurrentPosition(@Path("token") String token);
+
+    //send data of position when car stopped to App Server
+    @FormUrlEncoded
+    @POST("users/car/{token}/")
+    Call<CarPositionCollection> sendXYPosition(@Path("token") String token,
+                                               @Field("x") double x_position,
+                                               @Field("y") double y_position,
+                                               @Field("floor_id") int floorId,
+                                               @Field("fcm_token") String fcmToken,
+                                               @Field("timestamp_stop_engine") long timestampLong1000);
 }
 
 

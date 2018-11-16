@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
-import com.iplds.minimintji.iplds.MainApplication;
+import com.iplds.minimintji.iplds.BeaconApplication;
 import com.iplds.minimintji.iplds.R;
 import com.iplds.minimintji.iplds.dao.CarPositions.AvailableParking;
 import com.iplds.minimintji.iplds.dao.CarPositions.AvailableParkingCollection;

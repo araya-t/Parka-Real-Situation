@@ -7,7 +7,7 @@ import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
-import com.iplds.minimintji.iplds.MainApplication;
+import com.iplds.minimintji.iplds.BeaconApplication;
 import com.iplds.minimintji.iplds.R;
 import com.iplds.minimintji.iplds.manager.ChangeFloorIdToFloorName;
 

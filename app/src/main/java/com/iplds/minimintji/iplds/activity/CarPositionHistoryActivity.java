@@ -98,7 +98,7 @@ public class CarPositionHistoryActivity extends AppCompatActivity {
 
     private void getCarPositionHistory() {
         Call<CarPositionHistoryCollection> call = HttpManager.getInstance()
-                .getService()
+                .getServiceParka()
                 .getCarPositionHistory(userToken);
         call.enqueue(new Callback<CarPositionHistoryCollection>() {
             @Override
@@ -135,7 +135,7 @@ public class CarPositionHistoryActivity extends AppCompatActivity {
 
     private void getUserInfo(String userToken) {
         Call<User> call = HttpManager.getInstance()
-                .getService()
+                .getServiceParka()
                 .getUserInfo(userToken);
         call.enqueue(new Callback<User>() {
             @Override

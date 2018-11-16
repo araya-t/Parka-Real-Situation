@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
         ShowSnackBar();
         // use it when click Loin button at Login page
         Call<Token> call = HttpManager.getInstance()
-                .getService()
+                .getServiceParka()
                 .login(etUserName.getText().toString(),
                         etPassword.getText().toString());
         call.enqueue(new Callback<Token>() {

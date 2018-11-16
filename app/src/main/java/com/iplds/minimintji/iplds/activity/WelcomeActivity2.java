@@ -6,12 +6,11 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.app.Activity;
 import android.os.Handler;
-import android.util.Log;
 
 import com.iplds.minimintji.iplds.R;
 import com.iplds.minimintji.iplds.manager.SessionManager;
 
-public class WelcomeActivity extends Activity {
+public class WelcomeActivity2 extends Activity {
     private static int SPLASH_TIME_OUT = 3000; // 3s
 
     @Override
@@ -19,10 +18,10 @@ public class WelcomeActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
 
-        final SessionManager sessionManager = new SessionManager(WelcomeActivity.this);
+        final SessionManager sessionManager = new SessionManager(WelcomeActivity2.this);
 
 
-        new Handler().postDelayed(new Runnable() {
+        new Handler().postDelayed( new Runnable() {
             @Override
             public void run() {
                 SharedPreferences prefs = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
@@ -36,17 +35,17 @@ public class WelcomeActivity extends Activity {
 
                 if (token != null) {
                     if (test != null) {
-                        Intent anotherIntent = new Intent(WelcomeActivity.this, CheckIsDriveOutActivity.class);
+                        Intent anotherIntent = new Intent(WelcomeActivity2.this, CheckIsDriveOutActivity.class);
                         startActivity(anotherIntent);
                         finish();
                     } else {
-                        Intent welcomeIntent1 = new Intent(WelcomeActivity.this, HomeActivity.class);
+                        Intent welcomeIntent1 = new Intent(WelcomeActivity2.this, HomeActivity.class);
                         welcomeIntent1.putExtra("userToken", sessionManager.getToken());
                         startActivity(welcomeIntent1);
                         finish();
                     }
                 } else {
-                    Intent welcomeIntent2 = new Intent(WelcomeActivity.this, MainActivity.class);
+                    Intent welcomeIntent2 = new Intent(WelcomeActivity2.this, MainActivity.class);
                     startActivity(welcomeIntent2);
                     finish();
                 }

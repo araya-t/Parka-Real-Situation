@@ -4,9 +4,20 @@
 
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE " />
+
 
     <application
-        android:name=".MainApplication"
+        android:name=".BeaconApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -24,8 +35,8 @@
         <activity
             android:name=".activity.HelpActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".activity.WelcomeActivity"
+
+        <activity android:name=".activity.WelcomeActivity"
             android:label="@string/title_activity_welcome"
             android:noHistory="true"
             android:screenOrientation="portrait"
@@ -37,6 +48,10 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".activity.WelcomeActivity2"
+            android:theme="@style/AppTheme.NoActionBar" />
+
         <service android:name=".MyFirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
@@ -45,11 +60,14 @@
 
         <activity
             android:name=".activity.CheckIsDriveOutActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.CarPositionHistoryActivity"
             android:parentActivityName=".activity.WelcomeActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity android:name=".activity.RealSituationActivity" />
+
     </application>
 
 </manifest>
