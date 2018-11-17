@@ -384,7 +384,7 @@ class HomeActivityNew : AppCompatActivity() , NavigationView.OnNavigationItemSel
 
             Log.d("differentValue", "differentValueX: $differentValueX || differentValueY: $differentValueY")
             Log.d("CarIsStop", "-----------> Row $$countIndex | car IS STOPPP")
-            Toast.makeText(this, "in car is stopping", Toast.LENGTH_SHORT).show()
+//            Toast.makeText(this, "in car is stopping", Toast.LENGTH_SHORT).show()
 
 
             if (isFirstValueStop) {
@@ -496,7 +496,7 @@ class HomeActivityNew : AppCompatActivity() , NavigationView.OnNavigationItemSel
 
             Log.d("differentValue", "differentValueX: $differentValueX || differentValueY: $differentValueY")
             Log.d("CarIsStill", "-----------> Row $countIndex | car IS STILL")
-            Toast.makeText(this, "in car is still", Toast.LENGTH_SHORT).show()
+//            Toast.makeText(this, "in car is still", Toast.LENGTH_SHORT).show()
 
 
             if (isFirstValueStill) {

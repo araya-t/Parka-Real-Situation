@@ -17,7 +17,9 @@ public interface ApiServiceGMS {
 
     //send trigger to GMS to change the status of parking slot
     // without sending is_available
-
     @PUT("positions/{position_id}/parking")
     Call<Void> changeStatus(@Path("position_id") int position_id);
+
+    @PUT("positions/{position_id}/driveout")
+    Call<Void> driveOut(@Path("position_id") int position_id);
 }
