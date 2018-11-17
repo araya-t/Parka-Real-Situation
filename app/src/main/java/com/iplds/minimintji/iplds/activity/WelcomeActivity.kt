@@ -81,6 +81,8 @@ class WelcomeActivity : AppCompatActivity() {
             }
         })
 
+        val locationId = "six-slots-only--floor-10b"
+
         //check which activity should start
         Handler().postDelayed({
             val prefs = getSharedPreferences("userInfo", Context.MODE_PRIVATE)
@@ -95,20 +97,26 @@ class WelcomeActivity : AppCompatActivity() {
             if (token != null) {
                 if (test != null) {
                     val anotherIntent = Intent(this@WelcomeActivity, CheckIsDriveOutActivity::class.java)
-                    addFcmTokenTpIntent(anotherIntent)
+                    addFcmTokenToIntent(anotherIntent)
                     startActivity(anotherIntent)
                     finish()
                 } else {
-                    val welcomeIntent1 = Intent(this@WelcomeActivity, HomeActivity::class.java)
+                    val welcomeIntent1 = Intent(this@WelcomeActivity, HomeActivityNew::class.java)
                     welcomeIntent1.putExtra("userToken", sessionManager.token)
-                    addFcmTokenTpIntent(welcomeIntent1)
-                    startActivity(welcomeIntent1)
+                    addFcmTokenToIntent(welcomeIntent1)
+
+//                    startActivity(welcomeIntent1)
+                    startActivity(HomeActivityNew.Companion.createIntent(this, locationId, fcmToken))
+
                     finish()
                 }
             } else {
-                val welcomeIntent2 = Intent(this@WelcomeActivity, MainActivity::class.java)
-                addFcmTokenTpIntent(welcomeIntent2)
-                startActivity(welcomeIntent2)
+                val welcomeIntent2 = Intent(this@WelcomeActivity, HomeActivityNew::class.java)
+                addFcmTokenToIntent(welcomeIntent2)
+
+//                startActivity(welcomeIntent2)
+                startActivity(HomeActivityNew.Companion.createIntent(this, locationId, fcmToken))
+
                 finish()
             }
         }, SPLASH_TIME_OUT.toLong())
@@ -127,12 +135,13 @@ class WelcomeActivity : AppCompatActivity() {
                     //Get new instance ID token
                     fcmToken = task.result!!.token
                     Toast.makeText(this@WelcomeActivity, "getInstanceId Token: $fcmToken", Toast.LENGTH_LONG).show()
-                    Log.d("TagToken", "token: $fcmToken")
+                    Log.i("fcmToken", "WelcomeActivity || \n fcmToken: " + fcmToken)
 
                 })
+
     }
 
-    private fun addFcmTokenTpIntent(intent:Intent){
+    private fun addFcmTokenToIntent(intent:Intent){
         var locationId = "six-slots-only--floor-10b"
         intent.putExtra("fcmToken",fcmToken)
         intent.putExtra("locationId", locationId)

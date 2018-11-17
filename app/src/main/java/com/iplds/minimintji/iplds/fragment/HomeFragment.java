@@ -2,7 +2,6 @@ package com.iplds.minimintji.iplds.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
@@ -16,13 +15,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.iid.InstanceIdResult;
 import com.iplds.minimintji.iplds.R;
 import com.iplds.minimintji.iplds.activity.CarPositionHistoryActivity;
-import com.iplds.minimintji.iplds.activity.HomeActivity;
 import com.iplds.minimintji.iplds.dao.CarPositions.CarPositionCollection;
 import com.iplds.minimintji.iplds.dao.CarPositions.CarPositions;
 import com.iplds.minimintji.iplds.dao.User;

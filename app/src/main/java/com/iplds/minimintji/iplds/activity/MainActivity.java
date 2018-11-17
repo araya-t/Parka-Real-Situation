@@ -25,6 +25,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+// LoginActivity
 public class MainActivity extends AppCompatActivity {
     private Button btnLogin;
     private EditText etUserName, etPassword;
@@ -93,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
 
                         //------------------------
                         snackbar.dismiss();
-                        Intent intent = new Intent(MainActivity.this, HomeActivity.class);
+                        Intent intent = new Intent(MainActivity.this, HomeActivityNew.class);
                         intent.putExtra("userToken", Token);
                         startActivity(intent);
                         finish();

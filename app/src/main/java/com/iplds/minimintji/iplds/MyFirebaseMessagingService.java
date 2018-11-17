@@ -13,7 +13,7 @@ import android.util.Log;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
-import com.iplds.minimintji.iplds.activity.WelcomeActivity2;
+import com.iplds.minimintji.iplds.activity.WelcomeActivity;
 
 import java.util.Date;
 import java.util.Locale;
@@ -71,7 +71,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                     String s = remoteMessage.getData().get(k);
                     Log.d("Data Payload: ", "Message data payload: "+remoteMessage.getData().get(k));
 
-                    Intent resultIntent = new Intent(getApplicationContext(),WelcomeActivity2.class);
+                    Intent resultIntent = new Intent(getApplicationContext(),WelcomeActivity.class);
                     resultIntent.putExtra("test","test");
                     resultIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
@@ -98,7 +98,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
             String sn = remoteMessage.getNotification().getBody();
 
-            Intent resultIntent = new Intent(getApplicationContext(),WelcomeActivity2.class);
+            Intent resultIntent = new Intent(getApplicationContext(),WelcomeActivity.class);
             resultIntent.putExtra("test","test");
             resultIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
             TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);

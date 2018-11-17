@@ -1,4 +1,4 @@
-package com.iplds.minimintji.iplds.activity;
+package com.iplds.minimintji.iplds.etc;
 
 import android.content.Context;
 import android.content.Intent;
@@ -17,11 +17,13 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.iplds.minimintji.iplds.R;
+import com.iplds.minimintji.iplds.activity.HelpActivity;
+import com.iplds.minimintji.iplds.activity.MainActivity;
+import com.iplds.minimintji.iplds.activity.TestActivity;
 import com.iplds.minimintji.iplds.adapter.ViewPagerAdapter;
 import com.iplds.minimintji.iplds.dao.User;
 import com.iplds.minimintji.iplds.fragment.HomeFragment;
@@ -42,7 +44,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     private Toolbar toolbarHome;
     private Button btnLogout;
     private Button btnHelp;
-    private TextView tvName, tvSurname, tvNameHeader, tvSurnameHeader, tvfirstname, tvlastname;
+    private TextView  tvfirstname, tvlastname;
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private String userToken;
@@ -84,7 +86,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         View header = navigationView.getHeaderView(0);
         tvfirstname = (TextView) header.findViewById(R.id.tvfirstname);
         tvlastname = (TextView) header.findViewById(R.id.tvlastname);
-    //--------------------------
+        //--------------------------
         /*
         SharedPreferences prefs = getBaseContext().getSharedPreferences("userInfo", Context.MODE_PRIVATE);
         String userToken = prefs.getString("UserToken", null);
@@ -97,7 +99,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
         getUserInfo(userToken);
 
-    //----------------------------
+        //----------------------------
         tabLayout = (TabLayout) findViewById(R.id.tablayout_id);
         viewPager = (ViewPager) findViewById(R.id.viewpager_id);
 
@@ -109,7 +111,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         // Adapter setting
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
-    //----------------------------
+        //----------------------------
     }
 
     @Override
@@ -188,6 +190,10 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         switch (menuItem.getItemId()){
+            case R.id.nav_testing:
+                startActivity(new Intent(HomeActivity.this, TestActivity.class));
+                break;
+
             case R.id.nav_help:
                 startActivity(new Intent(HomeActivity.this, HelpActivity.class));
                 break;
@@ -209,7 +215,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
     public void CreateDialog() {
         final  PrettyDialog pDialog = new PrettyDialog(this);
-                pDialog.setTitle("Do you want to sign out?")
+        pDialog.setTitle("Do you want to sign out?")
                 //.setMessage("555555")
                 .addButton(
                         "Yes",     // button text
@@ -256,5 +262,4 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
                 .show();
     }
-
 }

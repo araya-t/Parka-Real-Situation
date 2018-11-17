@@ -38,6 +38,7 @@ import retrofit2.Response;
 public class CheckIsDriveOutActivity extends AppCompatActivity {
 
     Button btnNo, btnYes;
+    private String fcmToken;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +51,14 @@ public class CheckIsDriveOutActivity extends AppCompatActivity {
     private void initInstance() {
         btnNo = (Button) findViewById(R.id.btnNo);
         btnYes = (Button) findViewById(R.id.btnYes);
+
+        Bundle extras = getIntent().getExtras();
+        if(extras == null) {
+            Log.d("fcmToken", "FCM Token is nul");
+        } else {
+            fcmToken = extras.getString("fcmToken");
+            Log.d("fcmToken", "CheckIsDriveOutActivity || \n fcmToken: " + fcmToken);
+        }
 
         btnNo.setOnClickListener(new View.OnClickListener() {
             @Override

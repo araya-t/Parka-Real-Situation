@@ -1,4 +1,4 @@
-package com.iplds.minimintji.iplds.activity
+package com.iplds.minimintji.iplds.etc
 
 import android.content.Context
 import android.content.Intent
@@ -18,6 +18,8 @@ import com.estimote.indoorsdk_module.cloud.Location
 
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.iid.FirebaseInstanceId
+import com.iplds.minimintji.iplds.activity.CheckIsDriveOutActivity
+import com.iplds.minimintji.iplds.activity.MainActivity
 import com.iplds.minimintji.iplds.manager.SessionManager
 
 

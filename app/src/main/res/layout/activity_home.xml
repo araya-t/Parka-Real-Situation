@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".activity.HomeActivity"
+    tools:context=".activity.HomeActivityNew"
     tools:openDrawer="start">
 
     <ScrollView
@@ -49,7 +49,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         app:headerLayout="@layout/nav_header"
-        app:menu="@menu/navigation_manu">
+        app:menu="@menu/navigation_menu">
 
     </android.support.design.widget.NavigationView>
 

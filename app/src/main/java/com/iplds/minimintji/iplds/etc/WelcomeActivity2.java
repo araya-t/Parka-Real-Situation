@@ -1,4 +1,4 @@
-package com.iplds.minimintji.iplds.activity;
+package com.iplds.minimintji.iplds.etc;
 
 import android.content.Context;
 import android.content.Intent;
@@ -8,6 +8,8 @@ import android.app.Activity;
 import android.os.Handler;
 
 import com.iplds.minimintji.iplds.R;
+import com.iplds.minimintji.iplds.activity.CheckIsDriveOutActivity;
+import com.iplds.minimintji.iplds.activity.MainActivity;
 import com.iplds.minimintji.iplds.manager.SessionManager;
 
 public class WelcomeActivity2 extends Activity {

@@ -7,7 +7,7 @@ import android.preference.PreferenceManager;
 public class SessionManager {
     private Context context;
     private SharedPreferences sharedPreferences;
-    private String token;
+    private String seesionToken;
 
     public SessionManager(Context context) {
         // TODO Auto-generated constructor stub
@@ -18,12 +18,12 @@ public class SessionManager {
 
 
     public String getToken() {
-        token = sharedPreferences.getString("userToken", null);
-        return token;
+        seesionToken = sharedPreferences.getString("userToken", null);
+        return seesionToken;
     }
 
     public void setToken(String token) {
-        this.token = token;
+        this.seesionToken = token;
 //        sharedPreferences.edit().putString("userToken", token).commit();
 //        sharedPreferences.edit().apply();
         SharedPreferences.Editor editor = sharedPreferences.edit();
