@@ -298,7 +298,9 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
                     if (response.isSuccessful()) {
                         Log.d("responseSuccess", " send trigger to GMS SUCCESS");
 
-                        toast = Toast.makeText(TestActivity.this, "Send trigger to GMS ==> SUCCESS", Toast.LENGTH_SHORT);
+                        toast = Toast.makeText(TestActivity.this,
+                                                        "Send trigger to GMS"
+                                                        + "\n, change to unavailable \n==> SUCCESS", Toast.LENGTH_SHORT);
                         showSuccessToast();
 
                     } else {
@@ -326,10 +328,10 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
                 @Override
                 public void onResponse(retrofit2.Call<Void> call, Response<Void> response) {
                     if (response.isSuccessful()) {
-                        Log.d("responseSuccess", " send trigger to GMS SUCCESS");
+                        Log.d("responseSuccess", "send trigger to GMS SUCCESS");
 
                         String text = "Position '" + positionId + "' is available";
-                        toast = Toast.makeText(TestActivity.this, "Position " + "", Toast.LENGTH_SHORT);
+                        toast = Toast.makeText(TestActivity.this, text, Toast.LENGTH_SHORT);
                         showSuccessToast();
 
                     } else {
@@ -368,11 +370,11 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
             public void onResponse(retrofit2.Call<CarPositionCollection> call, Response<CarPositionCollection> response) {
 
                 if(response.isSuccessful()){
-                    Log.d("responseSuccess", "Send data to 'Parka' ==> SUCCESS");
+                    Log.d("responseSuccess", "Send (x,y) position to server ==> SUCCESS");
 
                     toast = Toast.makeText(
                             Contextor.getInstance().getContext(),
-                            "Send data to 'Parka' ==> SUCCESS",
+                            "Send (x,y) position to server ==> SUCCESS",
                             Toast.LENGTH_SHORT);
                     showSuccessToast();
                 }else{

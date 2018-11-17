@@ -120,6 +120,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getContext(), CarPositionHistoryActivity.class);
+                intent.putExtra("fcmToken",fcmToken);
                 startActivity(intent);
             }
         });

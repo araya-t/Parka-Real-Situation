@@ -74,6 +74,7 @@ public class CheckIsDriveOutActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(CheckIsDriveOutActivity.this, CarPositionHistoryActivity.class);
+                intent.putExtra("fcmToken",fcmToken);
                 startActivity(intent);
                 finish();
             }

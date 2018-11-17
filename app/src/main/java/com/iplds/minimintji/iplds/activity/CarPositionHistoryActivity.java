@@ -35,7 +35,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class CarPositionHistoryActivity extends AppCompatActivity {
-
+    private String fcmToken = null;
     private Toolbar toolbarHelp;
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle actionBarDrawerToggle;
@@ -43,7 +43,7 @@ public class CarPositionHistoryActivity extends AppCompatActivity {
     private CarPositionHistoryListAdapter listAdapter;
     private SwipeRefreshLayout swipLayout;
     private TextView tvName, tvLastname, tvNoparking;
-//    LinearLayout layoutUserInfo;
+    //    LinearLayout layoutUserInfo;
     private SessionManager sessionManager;
     private String userToken;
     private ProgressBar progressBar;
@@ -58,6 +58,10 @@ public class CarPositionHistoryActivity extends AppCompatActivity {
     }
 
     private void initInstances() {
+        Bundle extras = getIntent().getExtras();
+        fcmToken = extras.getString("fcmToken");
+        Log.d("fcmToken", "CarPositionHistoryActivity || \n fcmToken: " + fcmToken);
+
         toolbarHelp = findViewById(R.id.toolbarHelp);
         setSupportActionBar(toolbarHelp);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -129,7 +133,15 @@ public class CarPositionHistoryActivity extends AppCompatActivity {
 
     @Override
     public boolean onSupportNavigateUp() {
-        onBackPressed();
+//        onBackPressed();
+
+        String locationId = "six-slots-only--floor-10b";
+        Intent anotherIntent = new Intent(CarPositionHistoryActivity.this, HomeActivityNew.class);
+        anotherIntent.putExtra("userToken", userToken);
+        anotherIntent.putExtra("fcmToken",fcmToken);
+
+        startActivity(HomeActivityNew.Companion.createIntent(this, locationId, fcmToken));
+        finish();
         return true;
     }
 
