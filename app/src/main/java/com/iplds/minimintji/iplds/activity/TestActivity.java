@@ -5,11 +5,12 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 
 import com.iplds.minimintji.iplds.R;
 
 public class TestActivity extends AppCompatActivity {
-
+    private String fcmToken = null;
     private Toolbar toolbarTest;
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle actionBarDrawerToggle;
@@ -23,6 +24,11 @@ public class TestActivity extends AppCompatActivity {
     }
 
     private void initInstances() {
+        Bundle extras = getIntent().getExtras();
+        fcmToken = extras.getString("fcmToken");
+        Log.d("fcmToken", "TestActivity || \n fcmToken: " + fcmToken);
+
+
         toolbarTest = findViewById(R.id.toolbarTest);
         setSupportActionBar(toolbarTest);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

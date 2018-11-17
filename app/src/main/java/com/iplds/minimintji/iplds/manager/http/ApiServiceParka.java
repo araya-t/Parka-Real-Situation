@@ -42,7 +42,7 @@ public interface ApiServiceParka {
     Call<CarPositionHistoryCollection> getCarPositionHistory(@Path("token") String token);
 
     @GET("users/checkstatuscurrent/{token}/")
-    Call<CarPositionHistoryCollection> getCurrentPosition(@Path("token") String token);
+    Call<CarPositionCollection> getCurrentPosition(@Path("token") String token);
 
     //send data of position when car stopped to App Server
     @FormUrlEncoded

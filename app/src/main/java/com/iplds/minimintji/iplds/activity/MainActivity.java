@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     private Snackbar snackbar;
     private SessionManager sessionManager;
     private String Token;
+    private String fcmToken;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +47,9 @@ public class MainActivity extends AppCompatActivity {
     private void initInstances() {
         etUserName = (EditText) findViewById(R.id.etUserName);
         etPassword = (EditText) findViewById(R.id.etPassword);
+
+        Bundle extras = getIntent().getExtras();
+        fcmToken = extras.getString("fcmToken");
 
         btnLogin = (Button)findViewById(R.id.btnLogin);
 

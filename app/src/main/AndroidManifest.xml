@@ -21,17 +21,26 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.MainActivity" />
+
+        <activity android:name=".activity.MainActivity"
+                  android:screenOrientation="portrait"/>
+
         <activity
             android:name=".activity.RegisterActivity"
             android:parentActivityName=".activity.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"/>
+
         <activity
             android:name=".activity.HomeActivityNew"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"/>
+
         <activity
             android:name=".activity.HelpActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"/>
+
         <activity
             android:name=".activity.WelcomeActivity"
             android:label="@string/title_activity_welcome"
@@ -44,9 +53,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".etc.WelcomeActivity2"
-            android:theme="@style/AppTheme.NoActionBar" />
 
         <service android:name=".MyFirebaseMessagingService">
             <intent-filter>
@@ -56,12 +62,31 @@
 
         <activity
             android:name=".activity.CheckIsDriveOutActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"/>
+
         <activity
             android:name=".activity.CarPositionHistoryActivity"
             android:parentActivityName=".activity.WelcomeActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"/>
+
+        <activity
+            android:name=".activity.TestActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"/>
+
+        <activity
+            android:theme="@style/AppTheme.NoActionBar"
+            android:name=".activity.UserNotDriveOutActivity"
+            android:screenOrientation="portrait"/>
+
         <activity android:name=".activity.RealSituationActivity" />
+
+        <activity
+            android:name=".etc.WelcomeActivity2"
+            android:theme="@style/AppTheme.NoActionBar" />
+
     </application>
 
 </manifest>

@@ -96,27 +96,38 @@ class WelcomeActivity : AppCompatActivity() {
 
             if (token != null) {
                 if (test != null) {
-                    val anotherIntent = Intent(this@WelcomeActivity, CheckIsDriveOutActivity::class.java)
-                    addFcmTokenToIntent(anotherIntent)
-                    startActivity(anotherIntent)
-                    finish()
+                    if (test.equals("test")) {
+                        /** drive out **/
+                        val anotherIntent = Intent(this@WelcomeActivity, CheckIsDriveOutActivity::class.java)
+                        anotherIntent.putExtra("fcmToken",fcmToken)
+
+                        startActivity(anotherIntent)
+                        finish()
+                    }else{
+                        /** drive in **/
+                        val welcomeIntent1 = Intent(this@WelcomeActivity, HomeActivityNew::class.java)
+                        welcomeIntent1.putExtra("userToken", sessionManager.token)
+                        welcomeIntent1.putExtra("fcmToken",fcmToken)
+
+                        startActivity(HomeActivityNew.Companion.createIntent(this, locationId, fcmToken))
+                        finish()
+                    }
                 } else {
+                    /** go to HomeActivityNew **/
                     val welcomeIntent1 = Intent(this@WelcomeActivity, HomeActivityNew::class.java)
                     welcomeIntent1.putExtra("userToken", sessionManager.token)
-                    addFcmTokenToIntent(welcomeIntent1)
+                    welcomeIntent1.putExtra("fcmToken",fcmToken)
 
-//                    startActivity(welcomeIntent1)
                     startActivity(HomeActivityNew.Companion.createIntent(this, locationId, fcmToken))
-
                     finish()
                 }
             } else {
-                val welcomeIntent2 = Intent(this@WelcomeActivity, HomeActivityNew::class.java)
-                addFcmTokenToIntent(welcomeIntent2)
+                /** user token == null
+                    user must login **/
+                val welcomeIntent2 = Intent(this@WelcomeActivity, MainActivity::class.java)
+                welcomeIntent2.putExtra("fcmToken",fcmToken)
 
-//                startActivity(welcomeIntent2)
-                startActivity(HomeActivityNew.Companion.createIntent(this, locationId, fcmToken))
-
+                startActivity(welcomeIntent2)
                 finish()
             }
         }, SPLASH_TIME_OUT.toLong())
@@ -141,25 +152,10 @@ class WelcomeActivity : AppCompatActivity() {
 
     }
 
-    private fun addFcmTokenToIntent(intent:Intent){
-        var locationId = "six-slots-only--floor-10b"
-        intent.putExtra("fcmToken",fcmToken)
-        intent.putExtra("locationId", locationId)
-    }
-
-//    private fun startHomeActivity(){
-////        startActivity(Intent(this, LocationListActivity::class.java))
+//    private fun addFcmTokenToIntent(intent:Intent){
 //        var locationId = "six-slots-only--floor-10b"
-//
-//        val intent = Intent(this, HomeActivity::class.java)
-//        val extra = Bundle()
-//        extra.putString("fcmToken",fcmToken)
-//        extra.putString("locationId", locationId)
-//        intent.putExtras(extra)
-//
-//        startActivity(intent)
+//        intent.putExtra("fcmToken",fcmToken)
+//        intent.putExtra("locationId", locationId)
 //    }
-
-
 
 }

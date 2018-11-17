@@ -48,7 +48,7 @@ import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.ArrayList
 
-// don't fot grt to implement nav select
+// don't forget to implement nav select
 class HomeActivityNew : AppCompatActivity() , NavigationView.OnNavigationItemSelectedListener {
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var actionBarDrawerToggle: ActionBarDrawerToggle
@@ -221,7 +221,7 @@ class HomeActivityNew : AppCompatActivity() , NavigationView.OnNavigationItemSel
 
 //        val intent = intent
 //        val extra = intent.extras
-        fcmToken = intent.extras.getString(intentFcmToken)
+        fcmToken = intent.extras.getString("fcmToken")
         Log.i("fcmToken", "HomeActivityNew || \n fcmToken: " + fcmToken)
 
         /** ---------------------------------------------------------------------- **/
@@ -266,7 +266,20 @@ class HomeActivityNew : AppCompatActivity() , NavigationView.OnNavigationItemSel
         viewPager = findViewById<View>(R.id.viewpager_id) as ViewPager
 
         val adapter = ViewPagerAdapter(supportFragmentManager)
-        // Add fragements
+
+        // set fcmToken into Bundle ---------
+        val bundle = Bundle()
+        bundle.putString("fcmToken", fcmToken)
+
+        // set HomeFragment Arguments
+        val homeFragment = HomeFragment()
+        homeFragment.arguments = bundle
+
+        // set ShowStatusFragment Arguments
+        val showStatusFragment = ShowStatusFragment()
+        showStatusFragment.arguments = bundle
+
+        // add fragments
         adapter.AddFragment(HomeFragment(), "Parking Position")
         adapter.AddFragment(ShowStatusFragment(), "Show Available")
 
@@ -276,6 +289,10 @@ class HomeActivityNew : AppCompatActivity() , NavigationView.OnNavigationItemSel
         //----------------------------
 
 
+    }
+
+    fun getFcmToken(): String {
+        return fcmToken
     }
 
     /** ---------------------- Set up Location ----------------------------------------------------- **/
@@ -301,7 +318,7 @@ class HomeActivityNew : AppCompatActivity() , NavigationView.OnNavigationItemSel
         var isSuccess = false
 
         if (listenerSampling == -1) {
-            listenerSampling = SensorManager.SENSOR_DELAY_GAME
+            listenerSampling = SensorManager.SENSOR_DELAY_NORMAL
 
             Log.d("SensorSampling","--------- SensorManager.SENSOR_DELAY_FASTEST = " + listenerSampling)
         } else {
@@ -539,9 +556,18 @@ class HomeActivityNew : AppCompatActivity() , NavigationView.OnNavigationItemSel
 
     override fun onNavigationItemSelected(menuItem: MenuItem): Boolean {
         when (menuItem.itemId) {
-            R.id.nav_testing -> startActivity(Intent(this@HomeActivityNew, TestActivity::class.java))
+            R.id.nav_testing -> {
+                val intent = Intent(this@HomeActivityNew, TestActivity::class.java)
+                intent.putExtra("fcmToken",fcmToken)
+                startActivity(intent)
+            }
 
-            R.id.nav_help -> startActivity(Intent(this@HomeActivityNew, HelpActivity::class.java))
+            R.id.nav_help ->{
+                val intent = Intent(this@HomeActivityNew, HelpActivity::class.java)
+                intent.putExtra("fcmToken",fcmToken)
+                startActivity(intent)
+            }
+
 
             R.id.nav_logout ->
                 /*
@@ -563,8 +589,8 @@ class HomeActivityNew : AppCompatActivity() , NavigationView.OnNavigationItemSel
         call.enqueue(object : Callback<User> {
             override fun onResponse(call: Call<User>, response: Response<User>) {
                 val userInfo = response.body()
-                Log.d("UserInfo", "------------ UserInfo" + userInfo!!)
                 if (response.isSuccessful && userInfo != null) {
+                    Log.d("UserInfo", "------------ UserInfo" + userInfo!!)
                     // ----- waiting for fragment -----
                     //tvName.setText(userInfo.getName());
                     //tvSurname.setText(userInfo.getSurname());

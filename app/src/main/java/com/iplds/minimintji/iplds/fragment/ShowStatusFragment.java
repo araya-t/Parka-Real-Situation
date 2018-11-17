@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.iplds.minimintji.iplds.R;
+import com.iplds.minimintji.iplds.activity.HomeActivityNew;
 import com.iplds.minimintji.iplds.adapter.AvailableParkingListAdapter;
 import com.iplds.minimintji.iplds.dao.CarPositions.AvailableParkingCollection;
 import com.iplds.minimintji.iplds.manager.HttpManager;
@@ -24,10 +25,10 @@ import retrofit2.Response;
  * Created by nuuneoi on 11/16/2014.
  */
 public class ShowStatusFragment extends Fragment {
-
-    ListView listView;
-    AvailableParkingListAdapter listAdapter;
-    SwipeRefreshLayout swipLayout;
+    private String fcmToken = null;
+    private ListView listView;
+    private AvailableParkingListAdapter listAdapter;
+    private SwipeRefreshLayout swipLayout;
 
     public ShowStatusFragment() {
         super();
@@ -44,6 +45,13 @@ public class ShowStatusFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.show_status2_fragment, container, false);
+
+        //get fcmToken from HomeActivityNew
+        HomeActivityNew homeActivityNew = (HomeActivityNew) getActivity();
+        fcmToken = homeActivityNew.getFcmToken();
+        Log.i("fcmToken", "ShowStatusFragment || \n fcmToken: " + fcmToken);
+        //----------------------
+
         initInstances(rootView);
         return rootView;
     }
