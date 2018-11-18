@@ -365,6 +365,10 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
                         fcmToken,
                         timeStampLong1000);
 
+        Log.d("sendDataToAppServer", "timestampLong1000 = " + timeStampLong1000
+                + "\n, averageXPosition = " + x_position
+                + "\n, averageYPosition = " + y_position + "\n fcmToken = " + fcmToken);
+
         callParka.enqueue(new Callback<CarPositionCollection>() {
             @Override
             public void onResponse(retrofit2.Call<CarPositionCollection> call, Response<CarPositionCollection> response) {
