@@ -39,7 +39,7 @@ public class HomeFragment extends Fragment {
 
     private ProgressBar progressBar;
     private ImageView ivCar;
-    private TextView tvNoParking, tvName, tvLastname, tvPosition, tvZone, tvFloor, tvBuilding, tvStartTime;;
+    private TextView tvStartTimeHere, tvNoParking, tvName, tvLastname, tvPosition, tvZone, tvFloor, tvBuilding, tvStartTime;;
     private  Button btnParking, btnHistory;
     private SessionManager sessionManager;
     private String userToken, fcmToken = null;
@@ -91,6 +91,7 @@ public class HomeFragment extends Fragment {
         tvFloor = (TextView) rootView.findViewById(R.id.layoutCurrentMessage).findViewById(R.id.tvFloor);
         tvBuilding = (TextView) rootView.findViewById(R.id.layoutCurrentMessage).findViewById(R.id.tvBuilding);
         tvStartTime = (TextView) rootView.findViewById(R.id.layoutCurrentMessage).findViewById(R.id.tvStartTime);
+        tvStartTimeHere = (TextView) rootView.findViewById(R.id.layoutCurrentMessage).findViewById(R.id.tvStartTimeHere);
 
 //      Hide progressbar and layoutCurrentMessage
         progressBar.setVisibility(View.GONE);
@@ -178,7 +179,7 @@ public class HomeFragment extends Fragment {
                             String dateString = car.getTimeCreated().substring(0,19).replace('T',' ');
 
                             DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                            tvStartTime.setText(dateString);
+                            tvStartTimeHere.setText(dateString);
 
                             Toast.makeText(getContext(),"message: "+message,Toast.LENGTH_LONG).show();
                         }
@@ -232,7 +233,7 @@ public class HomeFragment extends Fragment {
                             tvFloor.setText(car.getFloorName());
                             tvBuilding.setText(car.getBuildingName());
                             String dateString = car.getTimeCreated().substring(0,19).replace('T',' ');
-                            tvStartTime.setText(dateString);
+                            tvStartTimeHere.setText(dateString);
 
                             Toast.makeText(getContext(), dao.getMessage(), Toast.LENGTH_LONG).show();
                             Log.d("message from server", "-------- message from send data is: " + message);
