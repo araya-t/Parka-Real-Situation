@@ -299,7 +299,8 @@ class HomeActivityNew : AppCompatActivity() , NavigationView.OnNavigationItemSel
 
     private fun setupLocation() {
         // get id of location to show from intent
-        val locationId = intent.extras.getString(HomeActivityNew.intentKeyLocationId)
+//        val locationId = intent.extras.getString(HomeActivityNew.intentKeyLocationId)
+        val locationId = "six-slots-only--floor-10b"
         // get object of location. If something went wrong, we build empty location with no data.
         location = (application as BeaconApplication).locationsById[locationId] ?: buildEmptyLocation()
         // Set the Activity title to you location name
@@ -464,9 +465,11 @@ class HomeActivityNew : AppCompatActivity() , NavigationView.OnNavigationItemSel
                 //call Parka server
                 callParka.enqueue( object: Callback<CarPositionCollection?> {
                     override fun onResponse(call: Call<CarPositionCollection?>?, response: Response<CarPositionCollection?>?) {
-                        if (response!!.isSuccessful) {
-                            Log.d("responseSuccess", "Send data to 'Parka' ==> SUCCESS")
+                        val dao = response!!.body()
 
+                        if (response!!.isSuccessful) {
+                            Log.d("responseSuccess", "Send (x,y) position to server ==> SUCCESS \n" + dao!!.message)
+                            
                             val dao: CarPositionCollection? = response.body()
 
                             Log.d("responseSuccess", "dao message = "+ dao!!.message)

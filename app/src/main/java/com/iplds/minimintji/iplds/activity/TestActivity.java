@@ -372,9 +372,10 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
         callParka.enqueue(new Callback<CarPositionCollection>() {
             @Override
             public void onResponse(retrofit2.Call<CarPositionCollection> call, Response<CarPositionCollection> response) {
-
+                CarPositionCollection dao = response.body();
                 if(response.isSuccessful()){
-                    Log.d("responseSuccess", "Send (x,y) position to server ==> SUCCESS");
+                    Log.d("responseSuccess", "Send (x,y) position to server ==> SUCCESS \n"
+                            + dao.getMessage());
 
                     toast = Toast.makeText(
                             Contextor.getInstance().getContext(),

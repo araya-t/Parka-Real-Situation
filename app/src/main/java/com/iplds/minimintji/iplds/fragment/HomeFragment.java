@@ -40,7 +40,7 @@ public class HomeFragment extends Fragment {
     private ProgressBar progressBar;
     private ImageView ivCar;
     private TextView tvStartTimeHere, tvNoParking, tvName, tvLastname, tvPosition, tvZone, tvFloor, tvBuilding, tvStartTime;;
-    private  Button btnParking, btnHistory;
+    private  Button btnHistory;
     private SessionManager sessionManager;
     private String userToken, fcmToken = null;
     private LinearLayout layoutUserInfo, layoutCurrentMessage;
@@ -77,7 +77,6 @@ public class HomeFragment extends Fragment {
         progressBar = (ProgressBar) rootView.findViewById(R.id.progressBar);
         ivCar = (ImageView) rootView.findViewById(R.id.ivCar);
         tvNoParking = (TextView) rootView.findViewById(R.id.tvNoParking);
-        btnParking = (Button) rootView.findViewById(R.id.btnParking);
         btnHistory = (Button) rootView.findViewById(R.id.btnHistory);
         layoutUserInfo = (LinearLayout) rootView.findViewById(R.id.layoutUserInfo);
         layoutCurrentMessage = (LinearLayout) rootView.findViewById(R.id.layoutCurrentMessage);
@@ -110,7 +109,6 @@ public class HomeFragment extends Fragment {
                 ivCar.setVisibility(View.GONE);
                 tvNoParking.setVisibility(View.GONE);
                 progressBar.setVisibility(View.VISIBLE);
-                btnParking.setVisibility(View.GONE);
                 layoutCurrentMessage.setVisibility(View.GONE);
                 refreshCurrentStatus();
                 swipLayout.setRefreshing(false);
@@ -126,25 +124,10 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        btnParking.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ivCar.setVisibility(View.GONE);
-                tvNoParking.setVisibility(View.GONE);
-                progressBar.setVisibility(View.VISIBLE);
-                btnParking.setVisibility(View.GONE);
-
-                sendDataToServer();
-
-            }
-        });
-
-
     }
 
 //    ------------------------------------ private method ------------------------------------
     private void refreshCurrentStatus() {
-        btnParking.setVisibility(View.VISIBLE);
         Log.d("TAG","Pass this line");
 
         getUserInfo(userToken);
@@ -159,7 +142,6 @@ public class HomeFragment extends Fragment {
                 progressBar.setVisibility(View.GONE);
                 ivCar.setVisibility(View.GONE);
                 tvNoParking.setVisibility(View.GONE);
-                btnParking.setVisibility(View.GONE);
                 if (response.isSuccessful()) {
                     CarPositionCollection dao = response.body();
                     getUserInfo(userToken);
@@ -188,7 +170,6 @@ public class HomeFragment extends Fragment {
                         layoutCurrentMessage.setVisibility(View.GONE);
                         ivCar.setVisibility(View.VISIBLE);
                         tvNoParking.setVisibility(View.VISIBLE);
-                        btnParking.setVisibility(View.VISIBLE);
                     }
                 }
             }
@@ -243,7 +224,6 @@ public class HomeFragment extends Fragment {
                         layoutCurrentMessage.setVisibility(View.GONE);
                         ivCar.setVisibility(View.VISIBLE);
                         tvNoParking.setVisibility(View.VISIBLE);
-                        btnParking.setVisibility(View.VISIBLE);
                     }
                 }
             }
@@ -254,26 +234,6 @@ public class HomeFragment extends Fragment {
             }
         });
     }
-
-//    private void initFcmToken() {
-//        FirebaseInstanceId.getInstance().getInstanceId()
-//                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
-//                        if (!task.isSuccessful()) {
-//                            Log.w("TAG", "getInstanceId failed", task.getException());
-//                            Toast.makeText(getContext(), "getInstanceId failed: " + task.getException(), Toast.LENGTH_LONG).show();
-//                            return;
-//                        }
-//
-//                        //Get new instance ID token
-//                        fcmToken = task.getResult().getToken();
-//                        Toast.makeText(getContext(), "getInstanceId Token: " + fcmToken, Toast.LENGTH_LONG).show();
-//                        Log.d("TAG-------------", "token: " + fcmToken);
-//
-//                    }
-//                });
-//    }
 
     private void getUserInfo(String userToken) {
         Call<User> call = HttpManager.getInstance()
