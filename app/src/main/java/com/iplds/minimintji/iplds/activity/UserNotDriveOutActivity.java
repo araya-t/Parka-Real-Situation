@@ -90,7 +90,7 @@ public class UserNotDriveOutActivity extends AppCompatActivity {
             ActivityCompat.requestPermissions(UserNotDriveOutActivity.this,
                     new String[] {Manifest.permission.CALL_PHONE}, REQUEST_CALL);
         } else {
-            String dial = "tel:0944592812";
+            String dial = "tel:0929125284";
             Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse(dial));
             intent.putExtra("fcmToken",fcmToken);
             startActivity(intent);

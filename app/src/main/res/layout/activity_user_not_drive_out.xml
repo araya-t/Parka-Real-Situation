@@ -68,7 +68,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/second_layout_margin"
-                        android:text="Tel: 094-459-2812." />
+                        android:text="Tel: 092-912-5284." />
 
                 </LinearLayout>
 
