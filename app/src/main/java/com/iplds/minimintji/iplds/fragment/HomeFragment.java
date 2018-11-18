@@ -166,7 +166,7 @@ public class HomeFragment extends Fragment {
                             Toast.makeText(getContext(),"message: "+message,Toast.LENGTH_LONG).show();
                         }
                     } else {
-                        tvNoParking.setText(dao.getMessage());
+                        tvNoParking.setText("No parking.");
                         layoutCurrentMessage.setVisibility(View.GONE);
                         ivCar.setVisibility(View.VISIBLE);
                         tvNoParking.setVisibility(View.VISIBLE);

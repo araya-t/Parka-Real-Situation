@@ -426,7 +426,7 @@ class HomeActivityNew : AppCompatActivity() , NavigationView.OnNavigationItemSel
 //                }
 
                 isCarStopped = true
-                Toast.makeText(this, "-- The car is STOP --", Toast.LENGTH_SHORT).show()
+//                Toast.makeText(this, "-- The car is STOP --", Toast.LENGTH_SHORT).show()
                 Log.d("checkIsCarStillStop", "--------------- The car is STOP ---------------")
 
                 /***********  implement code to sen x,y to server here  ************/
@@ -469,7 +469,7 @@ class HomeActivityNew : AppCompatActivity() , NavigationView.OnNavigationItemSel
 
                         if (response!!.isSuccessful) {
                             Log.d("responseSuccess", "Send (x,y) position to server ==> SUCCESS \n" + dao!!.message)
-                            
+
                             val dao: CarPositionCollection? = response.body()
 
                             Log.d("responseSuccess", "dao message = "+ dao!!.message)
@@ -478,7 +478,7 @@ class HomeActivityNew : AppCompatActivity() , NavigationView.OnNavigationItemSel
 
                             toast = Toast.makeText(
                                     Contextor.getInstance().context,
-                                    "Send data to 'Parka' ==> SUCCESS",
+                                    "Send (x,y) position to server ==> SUCCESS",
                                     Toast.LENGTH_SHORT)
                             showSuccessToast()
 
