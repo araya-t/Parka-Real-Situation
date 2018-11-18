@@ -145,17 +145,11 @@ class WelcomeActivity : AppCompatActivity() {
 
                     //Get new instance ID token
                     fcmToken = task.result!!.token
-                    Toast.makeText(this@WelcomeActivity, "getInstanceId Token: $fcmToken", Toast.LENGTH_LONG).show()
+//                    Toast.makeText(this@WelcomeActivity, "getInstanceId Token: $fcmToken", Toast.LENGTH_LONG).show()
                     Log.i("fcmToken", "WelcomeActivity || \n fcmToken: " + fcmToken)
 
                 })
 
     }
-
-//    private fun addFcmTokenToIntent(intent:Intent){
-//        var locationId = "six-slots-only--floor-10b"
-//        intent.putExtra("fcmToken",fcmToken)
-//        intent.putExtra("locationId", locationId)
-//    }
 
 }
