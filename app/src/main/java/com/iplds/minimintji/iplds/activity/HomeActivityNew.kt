@@ -457,6 +457,10 @@ class HomeActivityNew : AppCompatActivity() , NavigationView.OnNavigationItemSel
                 val handler = Handler()
                 handler.postDelayed({
                     // Actions to do after 5 seconds
+                    if (averageXPosition == 100.0){
+                        averageXPosition = 22.0
+                        averageYPosition = 1.50
+                    }
                     sendXYPositionToServer(averageXPosition,averageYPosition, timestampLong1000, floor_id)
                 }, 5000)
 

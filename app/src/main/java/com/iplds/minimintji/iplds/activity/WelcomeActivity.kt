@@ -69,7 +69,7 @@ class WelcomeActivity : AppCompatActivity() {
                 // save mapped locations to global pseudo "storage". You can do this in many various way :)
                 (application as BeaconApplication).locationsById.putAll(locationIds)
 
-                Toast.makeText(this@WelcomeActivity, "Ready to use iBeacon", Toast.LENGTH_LONG).show()
+                Toast.makeText(this@WelcomeActivity, "Ready to use Beacon", Toast.LENGTH_LONG).show()
                 // If all is fine, go ahead and launch activity with list of your locations :)
                 Log.d("WelcomeActivity"," ======== cloudManager.getAllLocations SUCCESS")
             }

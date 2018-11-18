@@ -1,6 +1,7 @@
 package com.iplds.minimintji.iplds.activity;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -42,11 +43,16 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
     private SessionManager sessionManager = null;
     private double x_position = 0.0;
     private double y_position = 0.0;
+    private SharedPreferences pref = null;
+    private SharedPreferences.Editor editor = null;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
+        pref = getApplicationContext().getSharedPreferences("TestActivity", 0); // 0 - for private mode
+        editor = pref.edit();
 
         initInstances();
     }
@@ -66,6 +72,13 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
         btn_337 = findViewById(R.id.btn_337);
         btn_338 = findViewById(R.id.btn_338);
         btn_339 = findViewById(R.id.btn_339);
+
+        is_328_available = pref.getBoolean("is_328_available",true);
+        is_329_available = pref.getBoolean("is_329_available",true);
+        is_330_available = pref.getBoolean("is_330_available",true);
+        is_337_available = pref.getBoolean("is_337_available",true);
+        is_338_available = pref.getBoolean("is_338_available",true);
+        is_339_available = pref.getBoolean("is_339_available",true);
 
         if(is_328_available){
             btn_328.setBackgroundColor(Color.GREEN);
@@ -130,6 +143,7 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
             if(is_328_available == true){
                 // drive in
                 btn_328.setBackgroundColor(Color.RED);
+                is_328_available = false;
                 changeGmsStatus(positionId,true);
 
                 Handler handler = new Handler();
@@ -144,17 +158,22 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
                 // drive out
                 btn_328.setBackgroundColor(Color.GREEN);
                 changeGmsStatus(positionId,false);
+                is_328_available = true;
             }
+
+            editor.putBoolean("is_328_available",is_328_available);
+            editor.commit();
         }
 
         if(v == btn_329){
             positionId = 329;
-            x_position = 21;
+            x_position = 21.0;
             y_position = 12.05;
 
             if(is_329_available == true){
                 // drive in
                 btn_329.setBackgroundColor(Color.RED);
+                is_329_available = false;
                 changeGmsStatus(positionId,true);
 
                 Handler handler = new Handler();
@@ -169,17 +188,22 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
                 // drive out
                 btn_329.setBackgroundColor(Color.GREEN);
                 changeGmsStatus(positionId,false);
+                is_329_available = true;
             }
+
+            editor.putBoolean("is_329_available",is_329_available);
+            editor.commit();
         }
 
         if(v == btn_330){
             positionId = 330;
-            x_position = 23.75;
+            x_position = 23.25;
             y_position = 14.05;
 
             if(is_330_available == true){
                 // drive in
                 btn_330.setBackgroundColor(Color.RED);
+                is_330_available = false;
                 changeGmsStatus(positionId,true);
 
                 Handler handler = new Handler();
@@ -194,17 +218,22 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
                 // drive out
                 btn_330.setBackgroundColor(Color.GREEN);
                 changeGmsStatus(positionId,false);
+                is_330_available = true;
             }
+
+            editor.putBoolean("is_330_available",is_330_available);
+            editor.commit();
         }
 
         if(v == btn_337){
             positionId = 337;
             x_position = 19;
-            y_position = 1.5;
+            y_position = 2.1;
 
             if(is_337_available == true){
                 // drive in
                 btn_337.setBackgroundColor(Color.RED);
+                is_337_available = false;
                 changeGmsStatus(positionId,true);
 
                 Handler handler = new Handler();
@@ -219,20 +248,22 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
                 // drive out
                 btn_337.setBackgroundColor(Color.GREEN);
                 changeGmsStatus(positionId,false);
+                is_337_available = true;
             }
+
+            editor.putBoolean("is_337_available",is_337_available);
+            editor.commit();
         }
 
         if(v == btn_338){
             positionId = 338;
-            x_position = 22;
-            y_position = 2.5;
+            x_position = 21.5;
+            y_position = 2.75;
 
             if(is_338_available == true){
-                x_position = 19;
-                y_position = 1.5;
-
                 // drive in
                 btn_338.setBackgroundColor(Color.RED);
+                is_338_available = false;
                 changeGmsStatus(positionId,true);
 
                 Handler handler = new Handler();
@@ -247,7 +278,11 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
                 // drive out
                 btn_338.setBackgroundColor(Color.GREEN);
                 changeGmsStatus(positionId,false);
+                is_338_available = true;
             }
+
+            editor.putBoolean("is_338_available",is_338_available);
+            editor.commit();
         }
 
         if(v == btn_339){
@@ -258,6 +293,7 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
             if(is_339_available == true){
                 // drive in
                 btn_339.setBackgroundColor(Color.RED);
+                is_339_available = false;
                 changeGmsStatus(positionId,true);
 
                 Handler handler = new Handler();
@@ -272,10 +308,12 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
                 // drive out
                 btn_339.setBackgroundColor(Color.GREEN);
                 changeGmsStatus(positionId,false);
+                is_339_available = true;
             }
+
+            editor.putBoolean("is_339_available",is_339_available);
+            editor.commit();
         }
-
-
     }
 
     @Override
@@ -322,7 +360,7 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
             });
         }else{
             retrofit2.Call<Void> callGMS = HttpManager.getInstance()
-                    .getServiceGMS().changeStatus(positionId);
+                    .getServiceGMS().driveOut(positionId);
 
             callGMS.enqueue(new Callback<Void>() {
                 @Override
@@ -330,7 +368,7 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
                     if (response.isSuccessful()) {
                         Log.d("responseSuccess", "send trigger to GMS SUCCESS");
 
-                        String text = "Position '" + positionId + "' is available";
+                        String text = "Position '" + positionId + "' is change to available";
                         toast = Toast.makeText(TestActivity.this, text, Toast.LENGTH_SHORT);
                         showSuccessToast();
 
