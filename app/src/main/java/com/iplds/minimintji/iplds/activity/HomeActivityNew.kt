@@ -68,8 +68,8 @@ class HomeActivityNew : AppCompatActivity() , NavigationView.OnNavigationItemSel
     private lateinit var indoorLocationManager: ScanningIndoorLocationManager
     private lateinit var onPositionUpdateListener: OnPositionUpdateListener
 
-    private var locationPosition_x:Double = 100.0
-    private var locationPosition_y:Double = 100.0
+    private var locationPosition_x:Double = 0.0
+    private var locationPosition_y:Double = 0.0
     private var countIndex = 0;
 
     private var sensorManager: SensorManager? = null
@@ -105,7 +105,7 @@ class HomeActivityNew : AppCompatActivity() , NavigationView.OnNavigationItemSel
     internal var isFirstValueStill = true
     internal var isFirstValueStop = true
     internal var isCarStopped = false
-    private  var indexStill:Int = 0
+    private  var indexStillStartWhenDetectStop:Int = 0
     private  var indexStop:Int = 0
 
     private lateinit var fcmToken:String
@@ -407,11 +407,13 @@ class HomeActivityNew : AppCompatActivity() , NavigationView.OnNavigationItemSel
                     Log.d("checkIsCarStillStop", " row(" + currentCountRow
                             + ")------------- (" + differentValueX + ", " + differentValueY + " )countIsStopEngine (" + countIsStopEngine + ") Value -------------")
 
-                } else {
+                } else if (currentCountRow - previousCountRowStop >= 3) {
                     csvRowsForCheckStop.clear()
                     countIsStopEngine = 0
                     previousCountRowStop = 0
                     isFirstValueStop = true
+                }else{
+                    csvRowsForCheckStop.add(csvRow)
                 }
 
             }
@@ -427,25 +429,37 @@ class HomeActivityNew : AppCompatActivity() , NavigationView.OnNavigationItemSel
                 Log.d("checkIsCarStillStop", "--------------- The car is STOP ---------------")
 
                 /***********  implement code to sen x,y to server here  ************/
-                Toast.makeText(this, "Have you parked your car???", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Car's engine is stopped", Toast.LENGTH_SHORT).show()
+
+                if(csvRowsForCheckStill.size != 0){
+                    indexStillStartWhenDetectStop = csvRowsForCheckStill.get(0).countRow - 1;
+                }else{
+                    Log.d("indexStillStartWhenStop", "--------------- csvRowsForCheckStill.size == 0 ---------------")
+                    indexStillStartWhenDetectStop = countIndex - 15
+                }
+
+                indexStop = countIndex - 1
+
+                var averageXPosition = calculateAverageXPosition(indexStillStartWhenDetectStop, indexStop)
+                var averageYPosition = calculateAverageYPosition(indexStillStartWhenDetectStop, indexStop)
 
 //--------- send data to server
 
-                var csvRowStop:CsvRow = csvRowsForCheckStop.get(indexStop)
+                var csvRowStop:CsvRow = csvRowRealSituation.get(indexStop)
                 val timestampLong1000 = csvRowStop.timeStampLong / 1000L
-                val x_position = csvRowStop.x_position + 17
-                val y_position = csvRowStop.y_position
                 var floor_id = 5018
+//                val x_position = csvRowStop.x_position
+//                val y_position = csvRowStop.y_position
 
                 Log.d("sendDataToAppServer", "timestampLong1000 = " + timestampLong1000
-                        + ", x_position = " + x_position
-                        + ", y_position = " + y_position + "\n\n tokennnnn = " + fcmToken)
+                        + "\n, averageXPosition = " + averageXPosition
+                        + "\n, averageYPosition = " + averageYPosition + "\n fcmToken = " + fcmToken)
 
                 //set data to send for processing position that user parked
                 val callParka = HttpManager.getInstance()
                         .serviceParka
                         .sendXYPosition(
-                                userToken, x_position, y_position, floor_id, fcmToken, timestampLong1000)
+                                userToken, averageXPosition, averageYPosition, floor_id, fcmToken, timestampLong1000)
 
                 //call Parka server
                 callParka.enqueue( object: Callback<CarPositionCollection?> {
@@ -492,7 +506,7 @@ class HomeActivityNew : AppCompatActivity() , NavigationView.OnNavigationItemSel
 
 
             /** Check whether car is still or not */
-        } else if (differentValueX < 0.15 && differentValueY < 0.15) {
+        } else if (((differentValueX <= 0.16) && differentValueY <= 0.16) || differentValueY <= 0.16) {
 
             Log.d("differentValue", "differentValueX: $differentValueX || differentValueY: $differentValueY")
             Log.d("CarIsStill", "-----------> Row $countIndex | car IS STILL")
@@ -516,11 +530,14 @@ class HomeActivityNew : AppCompatActivity() , NavigationView.OnNavigationItemSel
                     //                    Log.d("checkIsCarStillStop", " row(" + currentCountRow + ")------------- countIsStill (" + countIsStill + ") Value -------------");
                     Log.d("checkIsCarStillStop", " row(" + currentCountRow
                             + ")------------- (" + differentValueX + ", " + differentValueY + " )countIsStill (" + countIsStill + ") Value -------------")
-                } else {
+                } else if (currentCountRow - previousCountRowStill > 5)  {
+                    Log.d("checkIsCarStillStop", "--------------- the || Clear csvRowsForCheckStill")
                     csvRowsForCheckStill.clear()
                     countIsStill = 0
                     previousCountRowStill = 0
                     isFirstValueStill = true
+                }else{
+                    csvRowsForCheckStill.add(csvRow)
                 }
 
             }
@@ -528,10 +545,54 @@ class HomeActivityNew : AppCompatActivity() , NavigationView.OnNavigationItemSel
             if (countIsStill == 16 && isCarStopped == false) {
                 Toast.makeText(this, "-- The car is STILL --", Toast.LENGTH_SHORT).show()
                 Log.d("checkIsCarStillStop", "--------------- The car is STILL ---------------")
-
-
             }
         }
+    }
+
+    private fun calculateAverageXPosition(indexStillStartWhenDetectStop : Int,indexStop: Int) : Double {
+        var i = indexStillStartWhenDetectStop
+        var countAmount = 0;
+        var sum = 0.0
+        var averageX = -100.0
+
+        while ( i <= indexStop) {
+            sum += csvRowRealSituation.get(i).x_position
+            Log.d("calculateAverage","Row " + i
+                                                + "| countAmount="+ (countAmount+1)
+                                                + " |x_position = " + csvRowRealSituation.get(i).x_position
+                                                + " | sum = " + sum)
+            i++
+            countAmount++
+        }
+
+        if(sum != 0.0){
+            averageX = sum/countAmount
+        }
+
+        return averageX
+    }
+
+    private fun calculateAverageYPosition(indexStillStartWhenDetectStop : Int,indexStop: Int) : Double{
+        var i = indexStillStartWhenDetectStop
+        var countAmount = 0;
+        var sum = 0.0
+        var averageY = -100.0
+
+        while ( i <= indexStop) {
+            Log.d("calculateAverage","Row " + i
+                                            + "| countAmount="+ (countAmount + 1)
+                                            + " |y_position = " + csvRowRealSituation.get(i).y_position
+                                            + " | sum = " + sum)
+            sum += csvRowRealSituation.get(i).y_position
+            i++
+            countAmount++
+        }
+
+        if(sum != 0.0){
+            averageY = sum/countAmount
+        }
+
+        return averageY
     }
 
     private fun showSuccessToast() {
