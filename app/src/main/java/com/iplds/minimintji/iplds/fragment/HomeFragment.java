@@ -163,7 +163,7 @@ public class HomeFragment extends Fragment {
                             DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                             tvStartTimeHere.setText(dateString);
 
-                            Toast.makeText(getContext(),"message: "+message,Toast.LENGTH_LONG).show();
+//                            Toast.makeText(getContext(),"message: "+message,Toast.LENGTH_LONG).show();
                         }
                     } else {
                         tvNoParking.setText("No parking.");

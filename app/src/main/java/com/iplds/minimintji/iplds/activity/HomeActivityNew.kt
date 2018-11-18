@@ -10,6 +10,7 @@ import android.hardware.SensorManager
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
+import android.os.Handler
 import android.support.design.widget.NavigationView
 import android.support.design.widget.TabLayout
 import android.support.v4.content.ContextCompat
@@ -444,69 +445,22 @@ class HomeActivityNew : AppCompatActivity() , NavigationView.OnNavigationItemSel
                 var averageXPosition = calculateAverageXPosition(indexStillStartWhenDetectStop, indexStop)
                 var averageYPosition = calculateAverageYPosition(indexStillStartWhenDetectStop, indexStop)
 
-//--------- send data to server
-
+//--------- send trigger to GMS, change available to unavailable
                 var csvRowStop:CsvRow = csvRowRealSituation.get(indexStop)
                 val timestampLong1000 = csvRowStop.timeStampLong / 1000L
                 var floor_id = 5018
-//                val x_position = csvRowStop.x_position
-//                val y_position = csvRowStop.y_position
+                var positionId = 339
 
-                Log.d("sendDataToAppServer", "timestampLong1000 = " + timestampLong1000
-                        + "\n, averageXPosition = " + averageXPosition
-                        + "\n, averageYPosition = " + averageYPosition + "\n fcmToken = " + fcmToken)
+                changeGmsStatus(positionId, true)
 
-                //set data to send for processing position that user parked
-                val callParka = HttpManager.getInstance()
-                        .serviceParka
-                        .sendXYPosition(
-                                userToken, averageXPosition, averageYPosition, floor_id, fcmToken, timestampLong1000)
-
-                //call Parka server
-                callParka.enqueue( object: Callback<CarPositionCollection?> {
-                    override fun onResponse(call: Call<CarPositionCollection?>?, response: Response<CarPositionCollection?>?) {
-                        val dao = response!!.body()
-
-                        if (response!!.isSuccessful) {
-                            Log.d("responseSuccess", "Send (x,y) position to server ==> SUCCESS \n" + dao!!.message)
-
-                            val dao: CarPositionCollection? = response.body()
-
-                            Log.d("responseSuccess", "dao message = "+ dao!!.message)
-                            Log.d("responseSuccess", "dao carPositions = " + dao!!.carPositions)
-                            Log.d("responseSuccess", "response message = " + response.message())
-
-                            toast = Toast.makeText(
-                                    Contextor.getInstance().context,
-                                    "Send (x,y) position to server ==> SUCCESS",
-                                    Toast.LENGTH_SHORT)
-                            showSuccessToast()
-
-                        } else {
-                            Log.d("responseSuccess", "\ncan connect with server but failed"
-                                    + "\n 'Failed' response.message() -----> " + response.message())
-
-                            toast = Toast.makeText(
-                                    this@HomeActivityNew,
-                                    response!!.message(),
-                                    Toast.LENGTH_SHORT)
-                            showFailedToast()
-                        }
-                    }
-
-                    override fun onFailure(call: Call<CarPositionCollection?>?, t: Throwable?) {
-                        Log.d("responseSuccess", "Failed Error message is " + t)
-
-                        toast = Toast.makeText(
-                                this@HomeActivityNew,
-                                "Can not contact Server ==> FAILED \n" + t.toString(),
-                                Toast.LENGTH_SHORT)
-                        showFailedToast()
-                    }
-                })
+//--------- send data to server 5 secs later after trigger GMS
+                val handler = Handler()
+                handler.postDelayed({
+                    // Actions to do after 5 seconds
+                    sendXYPositionToServer(averageXPosition,averageYPosition, timestampLong1000, floor_id)
+                }, 5000)
 
             }
-
 
             /** Check whether car is still or not */
         } else if (((differentValueX <= 0.16) && differentValueY <= 0.16) || differentValueY <= 0.16) {
@@ -550,6 +504,127 @@ class HomeActivityNew : AppCompatActivity() , NavigationView.OnNavigationItemSel
                 Log.d("checkIsCarStillStop", "--------------- The car is STILL ---------------")
             }
         }
+    }
+
+    private fun changeGmsStatus(positionId: Int, isDriveIn: Boolean) {
+        if (isDriveIn) {
+            // change status from available to unavailable
+            val callGMS = HttpManager.getInstance()
+                    .serviceGMS.changeStatus(positionId)
+            Log.d("sendDataTrigger", " drive in @ position id = " + positionId)
+
+            //call GMS server
+            callGMS.enqueue(object : Callback<Void> {
+                override fun onResponse(call: retrofit2.Call<Void>, response: Response<Void>) {
+                    if (response.isSuccessful) {
+                        Log.d("responseSuccess", " send trigger to GMS SUCCESS")
+
+                        toast = Toast.makeText(this@HomeActivityNew,
+                                "Send trigger to GMS" + "\n, change to unavailable \n==> SUCCESS", Toast.LENGTH_SHORT)
+                        showSuccessToast()
+
+                    } else {
+                        Log.d("responseSuccess", "\ncan connect with server but failed"
+                                + "\n 'Failed' response.message() -----> " + response.message())
+
+                        toast = Toast.makeText(this@HomeActivityNew,
+                                response.message(), Toast.LENGTH_SHORT)
+                        showFailedToast()
+                    }
+                }
+
+                override fun onFailure(call: retrofit2.Call<Void>, t: Throwable) {
+                    Log.d("responseSuccess", "Failed Error message is " + t)
+                    toast = Toast.makeText(this@HomeActivityNew, "Send trigger to GMS ==> FAILED", Toast.LENGTH_SHORT)
+                    showFailedToast()
+                }
+            })
+        } else {
+            val callGMS = HttpManager.getInstance()
+                    .serviceGMS.changeStatus(positionId)
+
+            callGMS.enqueue(object : Callback<Void> {
+                override fun onResponse(call: retrofit2.Call<Void>, response: Response<Void>) {
+                    if (response.isSuccessful) {
+                        Log.d("responseSuccess", "send trigger to GMS SUCCESS")
+
+                        val text = "Position '$positionId' is available"
+                        toast = Toast.makeText(this@HomeActivityNew, text, Toast.LENGTH_SHORT)
+                        showSuccessToast()
+
+                    } else {
+                        Log.d("responseSuccess", "\ncan connect with server but failed"
+                                + "\n 'Failed' response.message() -----> " + response.message())
+
+                        toast = Toast.makeText(this@HomeActivityNew,
+                                response.message(), Toast.LENGTH_SHORT)
+                        showFailedToast()
+                    }
+                }
+
+                override fun onFailure(call: retrofit2.Call<Void>, t: Throwable) {
+                    Log.d("responseSuccess", "Failed Error message is " + t)
+                    toast = Toast.makeText(this@HomeActivityNew, "Change status to available ==> FAILED", Toast.LENGTH_SHORT)
+                    showFailedToast()
+                }
+            })
+        }
+    }
+
+    private fun sendXYPositionToServer(averageXPosition:Double, averageYPosition:Double,
+                                       timestampLong1000:Long, floor_id:Int){
+        Log.d("sendDataToAppServer", "timestampLong1000 = " + timestampLong1000
+                + "\n, averageXPosition = " + averageXPosition
+                + "\n, averageYPosition = " + averageYPosition + "\n fcmToken = " + fcmToken)
+
+        //set data to send for processing position that user parked
+        val callParka = HttpManager.getInstance()
+                .serviceParka
+                .sendXYPosition(
+                        userToken, averageXPosition, averageYPosition, floor_id, fcmToken, timestampLong1000)
+
+        //call Parka server
+        callParka.enqueue( object: Callback<CarPositionCollection?> {
+            override fun onResponse(call: Call<CarPositionCollection?>?, response: Response<CarPositionCollection?>?) {
+                val dao = response!!.body()
+
+                if (response!!.isSuccessful) {
+                    Log.d("responseSuccess", "Send (x,y) position to server ==> SUCCESS \n" + dao!!.message)
+
+                    val dao: CarPositionCollection? = response.body()
+
+                    Log.d("responseSuccess", "dao message = "+ dao!!.message)
+                    Log.d("responseSuccess", "dao carPositions = " + dao!!.carPositions)
+                    Log.d("responseSuccess", "response message = " + response.message())
+
+                    toast = Toast.makeText(
+                            Contextor.getInstance().context,
+                            "Send (x,y) position to server ==> SUCCESS",
+                            Toast.LENGTH_SHORT)
+                    showSuccessToast()
+
+                } else {
+                    Log.d("responseSuccess", "\ncan connect with server but failed"
+                            + "\n 'Failed' response.message() -----> " + response.message())
+
+                    toast = Toast.makeText(
+                            this@HomeActivityNew,
+                            response!!.message(),
+                            Toast.LENGTH_SHORT)
+                    showFailedToast()
+                }
+            }
+
+            override fun onFailure(call: Call<CarPositionCollection?>?, t: Throwable?) {
+                Log.d("responseSuccess", "Failed Error message is " + t)
+
+                toast = Toast.makeText(
+                        this@HomeActivityNew,
+                        "Can not contact Server ==> FAILED \n" + t.toString(),
+                        Toast.LENGTH_SHORT)
+                showFailedToast()
+            }
+        })
     }
 
     private fun calculateAverageXPosition(indexStillStartWhenDetectStop : Int,indexStop: Int) : Double {
