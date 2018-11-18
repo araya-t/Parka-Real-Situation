@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
     private LinearLayout mainActivity;
     private Snackbar snackbar;
     private SessionManager sessionManager;
-    private String Token;
+    private String userToken;
     private String fcmToken;
 
     @Override
@@ -92,15 +92,18 @@ public class MainActivity extends AppCompatActivity {
                     if (responseToken.getToken() != null){
                         //------------------------
 
-                        Token = responseToken.getToken();
+                        userToken = responseToken.getToken();
                         sessionManager = new SessionManager(MainActivity.this);
-                        sessionManager.setToken(Token);
+                        sessionManager.setToken(userToken);
 
                         //------------------------
                         snackbar.dismiss();
                         Intent intent = new Intent(MainActivity.this, HomeActivityNew.class);
-                        intent.putExtra("userToken", Token);
-                        startActivity(intent);
+                        intent.putExtra("userToken", userToken);
+                        intent.putExtra("fcmToken",fcmToken);
+
+                        String locationId = "six-slots-only--floor-10b";
+                        startActivity(HomeActivityNew.Companion.createIntent(MainActivity.this, locationId, fcmToken));
                         finish();
                         Toast.makeText(MainActivity.this, "Token: " + responseToken.getToken(), Toast.LENGTH_LONG).show();
 
@@ -163,7 +166,9 @@ public class MainActivity extends AppCompatActivity {
 
     public void Register(View view) {
         // use it when click Register button below Login button at Login page
-        startActivity(new Intent(MainActivity.this, RegisterActivity.class));
+        Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
+        intent.putExtra("fcmToken",fcmToken);
+        startActivity(intent);
     }
 
 

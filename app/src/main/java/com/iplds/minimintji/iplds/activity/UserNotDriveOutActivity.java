@@ -42,7 +42,9 @@ public class UserNotDriveOutActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(UserNotDriveOutActivity.this, HomeActivityNew.class);
-                startActivity(intent);
+                intent.putExtra("fcmToken",fcmToken);
+                String locationId = "six-slots-only--floor-10b";
+                startActivity(HomeActivityNew.Companion.createIntent(UserNotDriveOutActivity.this, locationId, fcmToken));
                 finish();
             }
         });
@@ -88,8 +90,10 @@ public class UserNotDriveOutActivity extends AppCompatActivity {
             ActivityCompat.requestPermissions(UserNotDriveOutActivity.this,
                     new String[] {Manifest.permission.CALL_PHONE}, REQUEST_CALL);
         } else {
-            String dial = "tel:0882497718";
-            startActivity(new Intent(Intent.ACTION_CALL, Uri.parse(dial)));
+            String dial = "tel:0944592812";
+            Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse(dial));
+            intent.putExtra("fcmToken",fcmToken);
+            startActivity(intent);
         }
     }
 }

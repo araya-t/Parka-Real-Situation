@@ -692,6 +692,7 @@ class HomeActivityNew : AppCompatActivity() , NavigationView.OnNavigationItemSel
                     edit.apply()
 
                     val intent = Intent(this@HomeActivityNew, MainActivity::class.java)
+                    intent.putExtra("fcmToken",fcmToken)
                     startActivity(intent)
                     finish()
                 }
